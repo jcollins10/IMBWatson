@@ -12,5 +12,7 @@
 	<classpathentry kind="lib" path="C:/Users/Jensen/.m2/repository/edu/stanford/nlp/stanford-corenlp/4.0.0/stanford-corenlp-4.0.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jensen/.m2/repository/edu/stanford/nlp/stanford-corenlp/4.0.0/stanford-corenlp-4.0.0-models.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jensen/.m2/repository/com/google/protobuf/protobuf-java/3.9.2/protobuf-java-3.9.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jensen/.m2/repository/junit/junit/4.12/junit-4.12.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

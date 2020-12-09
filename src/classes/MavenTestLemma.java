@@ -1,51 +1,50 @@
 package classes;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.BooleanSimilarity;
+import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.search.similarities.LMJelinekMercerSimilarity;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class MavenTestLemma {
-	// File Settings
-	static String queries = "questions.txt";
-	static String indexPath = "index/lemma";
-	
-	// Settings
-	// ONLY ONE OF THE FOLLOWING SHOULD BE TRUE AT A TIME
-	// if both are true it will default to useLemma
-	static boolean useLemma = true;
-	static boolean useStem = false;
+	// indexFilePath will need to be named whatever directory holds the index
+	static String indexFilePath = "index/lemmas";
+	static String inputDirectory = "WikiDocs";
+	static String questionQueries = "questions.txt";
 
 	@Test
 	public void test() {
-		QueryEngine qe = new QueryEngine(indexPath, useLemma, useStem);
-		QueryEngine qeBool = new QueryEngine(indexPath, useLemma, useStem, new BooleanSimilarity());
-		QueryEngine qeBM25 = new QueryEngine(indexPath, useLemma, useStem, new BM25Similarity());
-		QueryEngine qeJM = new QueryEngine(indexPath, useLemma, useStem, new LMJelinekMercerSimilarity((float) 0.5));
+		// Lines 35 and 36 should be commented out for graders so index is not created
+		//CreateIndex index = new CreateIndex(indexFilePath);
+		//index.parseFiles(inputDirectory);
 		
-		System.out.println("Running similarity 1.");
-		String vmtfidf = qe.runQueries(queries);
-		System.out.println("Running similarity 2.");
-		String bool = qeBool.runQueries(queries);
-		System.out.println("Running similarity 3.");
-		String bm25 = qeBM25.runQueries(queries);
-		System.out.println("Running similarity 4.");
-		String jm = qeJM.runQueries(queries);
+		// BM25 scoring function
+		QueryEngine queryEngine = new QueryEngine(indexFilePath, new BM25Similarity());
+		System.out.println("Running the BM25 model.");
+		String bm25Model = 	queryEngine.runQuestions(questionQueries);
+		System.out.println("Score from using the BM25 model:");
+		System.out.println(bm25Model);
 		
-		System.out.println();
-		System.out.println("For the index at " + indexPath);
-		System.out.println("Using the default Vector Space Model and tf/idf:\n" + vmtfidf);
-		System.out.println("Using the Boolean Model:\n" + bool);
-		System.out.println("Using the BM25 Model:\n" + bm25);
-		System.out.println("Using the Jelinek Mercer Model:\n" + jm);
+		// td/idf scoring function
+		queryEngine = new QueryEngine(indexFilePath, new ClassicSimilarity());
+		System.out.println("\nRunning the vector model with tf/idf scoring 1.\n");
+		String vectorModelTFIDF = queryEngine.runQuestions(questionQueries);
+		System.out.println("Score from using the vector space model and tf/idf:");
+		System.out.println(vectorModelTFIDF);
+		
+		// Boolean search scoring function
+		queryEngine = new QueryEngine(indexFilePath, new BooleanSimilarity());
+		System.out.println("\nRunning the Boolean model.\n");
+		String booleanModel = queryEngine.runQuestions(questionQueries);
+		System.out.println("Score from using the boolean model:");
+		System.out.println(booleanModel);
+		
+		// Jelinek Mercer, with lambda score of 0.5, scoring function
+		queryEngine = new QueryEngine(indexFilePath, new LMJelinekMercerSimilarity((float) 0.5));
+		System.out.println("\nRunning the Jelinek Mercer model.\n");
+		String jelinekMercer = 	queryEngine.runQuestions(questionQueries);
+		System.out.println("Score from using the Jelinek Mercer model:");
+		System.out.println(jelinekMercer);
 	}
 }
