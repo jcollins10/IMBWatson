@@ -27,7 +27,7 @@ import org.apache.lucene.search.similarities.LMJelinekMercerSimilarity;
 
 public class IBMWatson {
 	// indexFilePath will need to be named whatever directory holds the index
-	static String indexFilePath = "index/lemmas";
+	static String indexFilePath = "index/stems";
 	static String inputDirectory = "WikiDocs";
 	static String questionQueries = "questions.txt";
 		
