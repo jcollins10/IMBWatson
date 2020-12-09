@@ -45,7 +45,7 @@ public class IBMWatson {
 		
 		// td/idf scoring function
 		queryEngine = new QueryEngine(indexFilePath, new ClassicSimilarity());
-		System.out.println("\nRunning the vector model with tf/idf scoring 1.\n");
+		System.out.println("\nRunning the vector model with tf/idf.\n");
 		String vectorModelTFIDF = queryEngine.runQuestions(questionQueries);
 		System.out.println("Score from using the vector space model and tf/idf:");
 		System.out.println(vectorModelTFIDF);
